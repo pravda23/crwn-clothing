@@ -16,9 +16,14 @@ const Nav = () => {
           <Link className="nav-link" to="/shop">
             SHOP
           </Link>
+          <Link className="nav-link" to="/sign-in">
+            SIGN IN
+          </Link>
         </div>
       </div>
+
       <Outlet />
+      {/* The Outlet component alone allows nested routes to render their element content out and anything else the layout route is rendering, i.e. navbars, sidebars, specific layout components, etc. */}
     </Fragment>
   );
 };
