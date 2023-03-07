@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { getRedirectResult } from "firebase/auth";
+import SignUpForm from "../../components/sign-up-form/sign-up-form.component";
 
 import {
   auth,
@@ -9,11 +10,19 @@ import {
 } from "../../utils/firebase/firebase.utils";
 
 const SignIn = () => {
-  useEffect(async () => {
-    const response = await getRedirectResult(auth);
-    console.log(response);
+  // allows Google redirect sign-in
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getRedirectResult(auth);
+      console.log(response);
+      if (response) {
+        const userDocRef = await createUserDocumentFromAuth(response.user);
+      }
+    };
+    fetchData();
   }, []);
 
+  // allows Google popup sign-in
   const logGoogleUser = async () => {
     const { user } = await signInWithGooglePopup();
     const userDocRef = await createUserDocumentFromAuth(user);
@@ -22,6 +31,7 @@ const SignIn = () => {
   return (
     <div>
       <h1>Sign in page</h1>;
+      <SignUpForm />;
       <button onClick={logGoogleUser}>Sign in with Google Popup</button>
       <button onClick={signInWithGoogleRedirect}>
         Sign in with Google Redirect
