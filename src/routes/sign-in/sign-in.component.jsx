@@ -11,18 +11,6 @@ import {
 import SignUpForm from "../../components/sign-up-form/sign-up-form.component";
 
 const SignIn = () => {
-  // allows Google redirect sign-in
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await getRedirectResult(auth);
-  //     console.log(response);
-  //     if (response) {
-  //       const userDocRef = await createUserDocumentFromAuth(response.user);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-
   // allows Google popup sign-in
   const logGoogleUser = async () => {
     const { user } = await signInWithGooglePopup();
