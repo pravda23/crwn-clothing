@@ -1,10 +1,19 @@
 import { useState } from "react";
+import { createAuthUserFromEmailAndPassword } from "../../utils/firebase/firebase.utils";
 
 const defaultFormFields = {
   displayName: "",
   email: "",
   password: "",
   confirmPassword: "",
+};
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+  // confirm password match
+  // check if user has been authenticated
+  // create user document from what is returned
 };
 
 const SignUpForm = () => {
@@ -21,7 +30,7 @@ const SignUpForm = () => {
   return (
     <div>
       <h1>Sign up with email and password</h1>
-      <form onSubmit={() => {}}>
+      <form onSubmit={handleSubmit}>
         <label>Display Name</label>
         <input
           type="text"
