@@ -29,6 +29,7 @@ googleProvider.setCustomParameters({
 
 export const auth = getAuth();
 export const signInWithGooglePopup = () => {
+  if (!userAuth) return;
   return signInWithPopup(auth, googleProvider);
 };
 
@@ -59,8 +60,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
   return userDocRef;
 };
 
-const createAuthUserWithEmailAndPassword = async (email, password) => {
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
-
-  return await createUserWithEmailAndPassword(auth, email, password);
+  return await createAuthUserWithEmailAndPassword(auth, email, password);
 };
