@@ -29,13 +29,12 @@ googleProvider.setCustomParameters({
 
 export const auth = getAuth();
 export const signInWithGooglePopup = () => {
-  if (!userAuth) return;
   return signInWithPopup(auth, googleProvider);
 };
 
-export const signInWithGoogleRedirect = () => {
-  return signInWithRedirect(auth, googleProvider);
-};
+// export const signInWithGoogleRedirect = () => {
+//   return signInWithRedirect(auth, googleProvider);
+// };
 
 export const db = getFirestore();
 
