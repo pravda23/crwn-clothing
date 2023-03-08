@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { getRedirectResult } from "firebase/auth";
-import SignUpForm from "../../components/sign-up-form/sign-up-form.component";
 
 import {
   auth,
@@ -8,6 +7,8 @@ import {
   // signInWithGoogleRedirect,
   createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
+
+import { SignUpForm } from "../../components/sign-up-form/sign-up-form.component";
 
 const SignIn = () => {
   // allows Google redirect sign-in
