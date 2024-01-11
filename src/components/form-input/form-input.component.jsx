@@ -7,7 +7,7 @@ const FormInput = ({ label, ...otherProps }) => {
       {/* if label exists, render it */}
       {label && (
         <label
-          //   if className has a lengthf (ie user has entered text) then render the label with 'shrink' class
+          //   if className has a length (ie user has entered text) then render the label with 'shrink' class
           className={`${otherProps.value.length} ? "shrink" : ""} form-input-label `}
         >
           {label}
