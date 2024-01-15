@@ -14,6 +14,7 @@ import { signOutUser } from "../../utils/firebase/firebase.utils";
 import "./navigation.styles.scss";
 
 const Nav = () => {
+  // declaring object with useContext allows access to other functionality (eg useState) when located in a different component
   const { currentUser } = useContext(UserContext);
   const { isCartOpen } = useContext(CartContext);
 
@@ -41,6 +42,7 @@ const Nav = () => {
 
           <CartIcon />
         </div>
+
         {isCartOpen && <CartDropdown />}
       </div>
 
