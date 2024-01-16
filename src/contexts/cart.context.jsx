@@ -1,7 +1,7 @@
 import { useState, createContext, useEffect } from "react";
 
-// helper function to add/update product
-export const addCartItem = (cartItems, productToAdd) => {
+// helper function to INCREMENT/UPDATE product
+const addCartItem = (cartItems, productToAdd) => {
   // find if cart items contains productToAdd
   const existingCartItem = cartItems.find(
     (cartItem) => cartItem.id === productToAdd.id
@@ -19,11 +19,37 @@ export const addCartItem = (cartItems, productToAdd) => {
   return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
 
+// helper function to DECREMENT/REMOVE product
+const removeCartItem = (cartItems, cartItemToRemove) => {
+  // find cart items to remove
+  const existingCartItem = cartItems.find(
+    (cartItem) => cartItem.id === cartItemToRemove.id
+  );
+
+  // if quantity is equal to 1, remove from cart
+  if (existingCartItem.quantity === 1) {
+    return cartItems.filter((cartItem) => cartItem.id !== cartItemToRemove.id);
+  }
+
+  // return existing cart items
+  return cartItems.map((cartItem) =>
+    cartItem.id === cartItemToRemove.id
+      ? // why use {} to return new object (below)? Only by returning a new object instead of the existing cartItem will React trigger a refresh
+        { ...cartItem, quantity: cartItem.quantity - 1 }
+      : cartItem
+  );
+};
+
+const clearCartItem = (cartItems, cartItemToClear) =>
+  cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
+
 export const CartContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => {},
   cartItems: [],
   addItemToCart: () => {},
+  removeItemFromCart: () => {},
+  clearItemFromCart: () => {},
   cartCount: 0,
 });
 
@@ -46,10 +72,19 @@ export const CartProvider = ({ children }) => {
     setCartItems(addCartItem(cartItems, productToAdd));
   };
 
+  const removeItemFromCart = (cartItemToRemove) => {
+    setCartItems(removeCartItem(cartItems, cartItemToRemove));
+  };
+
+  const clearItemFromCart = (cartItemToClear) => {
+    setCartItems(clearCartItem(cartItems, cartItemToClear));
+  };
   const value = {
     isCartOpen,
     setIsCartOpen,
     addItemToCart,
+    removeItemFromCart,
+    clearItemFromCart,
     cartItems,
     cartCount,
   };
