@@ -39,35 +39,45 @@ const removeCartItem = (cartItems, cartItemToRemove) => {
       : cartItem
   );
 };
-
+// helper function to CLEAR product from cart
 const clearCartItem = (cartItems, cartItemToClear) =>
   cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
 
 export const CartContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => {},
-  cartItems: [],
   addItemToCart: () => {},
   removeItemFromCart: () => {},
   clearItemFromCart: () => {},
+  cartItems: [],
   cartCount: 0,
+  cartTotal: 0,
 });
 
 export const CartProvider = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+  const [cartTotal, setCartTotal] = useState(0);
 
-  // monitors for changes in cartItems and updates number of items in cart (cartCount)
+  // monitors cartItems and updates cartCount (number of items in cart)
   useEffect(() => {
     const newCartCount = cartItems.reduce(
-      (total, cartItem) => total + cartItem.quantity,
+      (itemTotal, cartItem) => itemTotal + cartItem.quantity,
       0
     );
     setCartCount(newCartCount);
   }, [cartItems]);
 
-  // addItemToCart uses addCartItem helper function (above) to either add a product to cart OR check for existing product and increment quantity by 1
+  useEffect(() => {
+    const newCartTotal = cartItems.reduce(
+      (price, cartItem) => price + cartItem.quantity * cartItem.price,
+      0
+    );
+    setCartTotal(newCartTotal);
+  }, [cartItems]);
+
+  // use helper functions (above) to add/increment/decrement/remove/clear products from cart
   const addItemToCart = (productToAdd) => {
     setCartItems(addCartItem(cartItems, productToAdd));
   };
@@ -79,6 +89,7 @@ export const CartProvider = ({ children }) => {
   const clearItemFromCart = (cartItemToClear) => {
     setCartItems(clearCartItem(cartItems, cartItemToClear));
   };
+
   const value = {
     isCartOpen,
     setIsCartOpen,
@@ -87,6 +98,7 @@ export const CartProvider = ({ children }) => {
     clearItemFromCart,
     cartItems,
     cartCount,
+    cartTotal,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
