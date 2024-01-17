@@ -16,6 +16,8 @@ import {
   setDoc,
   collection,
   writeBatch,
+  query,
+  getDocs,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -55,6 +57,7 @@ export const addCollectionAndDocuments = async (
   const batch = writeBatch(db);
 
   // each object passed is an item in the SHOP_DATA array
+  // object.title is used as the key
   objectsToAdd.forEach((object) =>
     // collectionRef returned when collection method is called on db, now we use it to write objects
     {
@@ -66,6 +69,22 @@ export const addCollectionAndDocuments = async (
   );
   await batch.commit();
   console.log("done");
+};
+
+// getCategoriesAndDocuments is a ringfence for futureproofing against potentially changing firestore methods; rather than use them directly, we create this helper function to isolate any concerns in a single place
+
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, "categories");
+  const q = query(collectionRef);
+
+  const querySnapshot = await getDocs(q);
+
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const { title, items } = docSnapshot.data();
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, {});
+  return categoryMap;
 };
 
 export const createUserDocumentFromAuth = async (
