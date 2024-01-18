@@ -6,18 +6,18 @@ import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils.jsx"
 // import { addCollectionAndDocuments } from "../utils/firebase/firebase.utils.jsx";
 // import SHOP_DATA from "../shop-data.js";
 
-export const ProductsContext = createContext({
-  products: [],
+export const CategoriesContext = createContext({
+  categoriesMap: {},
 });
 
 // every created context requires its own provider
-export const ProductsProvider = ({ children }) => {
-  const [products, setProducts] = useState([]);
+export const CategoriesProvider = ({ children }) => {
+  const [categoriesMap, setCategoriesMap] = useState({});
 
   useEffect(() => {
     const getCategoriesMap = async () => {
-      const categoryMap = await getCategoriesAndDocuments();
-      console.log(categoryMap);
+      const categoryMap = await getCategoriesAndDocuments("categories");
+      setCategoriesMap(categoryMap);
     };
     getCategoriesMap();
   }, []);
@@ -29,11 +29,11 @@ export const ProductsProvider = ({ children }) => {
   //   addCollectionAndDocuments("categories", SHOP_DATA);
   // }, []);
 
-  const value = { products };
+  const value = { categoriesMap };
   return (
-    <ProductsContext.Provider value={value}>
+    <CategoriesContext.Provider value={value}>
       {children}
-    </ProductsContext.Provider>
+    </CategoriesContext.Provider>
   );
 };
 

@@ -96,7 +96,7 @@ export const createUserDocumentFromAuth = async (
 
   // userSnapshot scans user database entry (uuid) and returns a valid user document by either retrieving and assigning it to userAuth (if exists) or creating it with setDoc (if !exists)
   const userSnapshot = await getDoc(userDocRef);
-  console.log(userSnapshot.exists());
+  // console.log(userSnapshot.exists());
 
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
@@ -118,7 +118,6 @@ export const createUserDocumentFromAuth = async (
     }
   }
 
-  console.log(userAuth);
   return userDocRef;
 };
 

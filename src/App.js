@@ -10,9 +10,10 @@ const App = () => {
     <Routes>
       <Route path="/" element={<Nav />}>
         <Route index element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/auth" element={<Authentication />} />
-        <Route path="/checkout" element={<Checkout />} />
+        {/* asterisk after route (shop/*) instructs react to render any nested routes relative to their parent; anything after shop/ will treat shop/ as the parent instead of /; it offloads rendering of children to shop/ */}
+        <Route path="shop/*" element={<Shop />} />
+        <Route path="auth" element={<Authentication />} />
+        <Route path="checkout" element={<Checkout />} />
       </Route>
     </Routes>
   );
