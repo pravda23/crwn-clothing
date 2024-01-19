@@ -7,7 +7,9 @@ import Button from "../button/button.component";
 
 import CartItem from "../cart-item/cart-item.component";
 
-import "../../routes/navigation/navigation.styles.scss";
+// import "../../routes/navigation/navigation.styles.scss";
+
+import { NavigationContainer } from "../../routes//navigation/navigation.styles";
 
 const CartDropdown = () => {
   const { cartItems } = useContext(CartContext);

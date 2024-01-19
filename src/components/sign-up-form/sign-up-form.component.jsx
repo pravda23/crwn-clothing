@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 
 import FormInput from "../form-input/form-input.component";
 import "./sign-up-form.styles.scss";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 import {
   createAuthUserWithEmailAndPassword,
@@ -102,7 +102,7 @@ const SignUpForm = () => {
           autoComplete="off"
         />
 
-        <Button buttonType="default" type="submit">
+        <Button buttonType={BUTTON_TYPE_CLASSES.inverted} type="submit">
           Sign Up
         </Button>
       </form>

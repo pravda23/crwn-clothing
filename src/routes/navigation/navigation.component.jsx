@@ -11,7 +11,10 @@ import { CartContext } from "../../contexts/cart.context";
 
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 
-import "./navigation.styles.scss";
+import { NavigationContainer } from "./navigation.styles";
+import { NavLinks } from "./navigation.styles";
+import { NavLink } from "./navigation.styles";
+import { LogoContainer } from "./navigation.styles";
 
 const Nav = () => {
   // declaring object with useContext allows access to other functionality (eg useState) when located in a different component
@@ -20,32 +23,28 @@ const Nav = () => {
 
   return (
     <Fragment>
-      <div className="navigation">
-        <Link className="logo-container" to="/">
+      <NavigationContainer>
+        <LogoContainer to="/">
           <div>
             <CrwnLogo />
           </div>
-        </Link>
-        <div className="nav-links-container">
-          <Link className="nav-link" to="/shop">
-            SHOP
-          </Link>
+        </LogoContainer>
+        <NavLinks>
+          <NavLink to="/shop">SHOP</NavLink>
           {currentUser ? (
-            <span className="nav-link" onClick={signOutUser}>
+            // "as" allows underlying element to be rendered as something other than the declared element type. In this case, "span" overrides the "Link" type set in the corresponding CSS file.
+            <NavLink as="span" onClick={signOutUser}>
               SIGN OUT
-            </span>
+            </NavLink>
           ) : (
-            <Link className="nav-link" to="/auth">
-              SIGN IN
-            </Link>
+            <NavLink to="/auth">SIGN IN</NavLink>
           )}
 
           <CartIcon />
-        </div>
+        </NavLinks>
 
         {isCartOpen && <CartDropdown />}
-      </div>
-
+      </NavigationContainer>
       <Outlet />
       {/* The Outlet component alone allows nested routes to render their element content out and anything else the layout route is rendering, i.e. navbars, sidebars, specific layout components, etc. */}
     </Fragment>
