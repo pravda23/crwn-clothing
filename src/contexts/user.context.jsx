@@ -1,9 +1,11 @@
-import { useState, createContext, useEffect } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import {
   onAuthStateChangedListener,
   signOutUser,
   createUserDocumentFromAuth,
 } from "../utils/firebase/firebase.utils";
+
+import { createAction } from "../utils/reducer/reducer.utils";
 
 // actual value you want to access
 export const UserContext = createContext({
@@ -11,20 +13,49 @@ export const UserContext = createContext({
   currentUser: null,
 });
 
+export const USER_ACTION_TYPES = {
+  SET_CURRENT_USER: "SET_CURRENT_USER",
+};
+
+const userReducer = (state, action) => {
+  // console.log(action);
+  const { type, payload } = action;
+
+  switch (type) {
+    case USER_ACTION_TYPES.SET_CURRENT_USER:
+      // returns new state object which is generated
+      return { ...state, currentUser: payload };
+    default:
+      throw new Error(`Unhandled type ${type} in userReducer}`);
+  }
+};
+
+const INITIAL_STATE = {
+  currentUser: null,
+};
+
 // every created context requires its own provider
 export const UserProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [{ currentUser }, dispatch] = useReducer(userReducer, INITIAL_STATE);
+  console.log(currentUser);
+
+  const setCurrentUser = (user) => {
+    // dispatch is similar to setState; sends the data for the reducer action to run, which triggers an update/refresh
+
+    dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
+  };
+
   const value = { currentUser, setCurrentUser };
 
   // used to listen for global changes to the user sign-in/out state
   useEffect(() => {
-    // unsubscribes from authentication 'stream', ie cleanup function
     const unsubscribe = onAuthStateChangedListener((user) => {
       if (user) {
         createUserDocumentFromAuth(user);
       }
       setCurrentUser(user);
     });
+    // unsubscribes from authentication 'stream', ie cleanup function
     return unsubscribe;
   }, []);
 
