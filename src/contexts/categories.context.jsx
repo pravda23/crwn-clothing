@@ -2,10 +2,6 @@ import { createContext, useState, useEffect } from "react";
 
 import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils.jsx";
 
-// only required for useEffect learning purposes - see below
-// import { addCollectionAndDocuments } from "../utils/firebase/firebase.utils.jsx";
-// import SHOP_DATA from "../shop-data.js";
-
 export const CategoriesContext = createContext({
   categoriesMap: {},
 });

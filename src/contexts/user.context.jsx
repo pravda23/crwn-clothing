@@ -1,9 +1,4 @@
 import { createContext, useEffect, useReducer } from "react";
-import {
-  onAuthStateChangedListener,
-  signOutUser,
-  createUserDocumentFromAuth,
-} from "../utils/firebase/firebase.utils";
 
 import { createAction } from "../utils/reducer/reducer.utils";
 
@@ -46,18 +41,6 @@ export const UserProvider = ({ children }) => {
   };
 
   const value = { currentUser, setCurrentUser };
-
-  // used to listen for global changes to the user sign-in/out state
-  useEffect(() => {
-    const unsubscribe = onAuthStateChangedListener((user) => {
-      if (user) {
-        createUserDocumentFromAuth(user);
-      }
-      setCurrentUser(user);
-    });
-    // unsubscribes from authentication 'stream', ie cleanup function
-    return unsubscribe;
-  }, []);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
