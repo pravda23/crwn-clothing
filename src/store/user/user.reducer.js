@@ -1,3 +1,5 @@
+// exported to root-reducer, which stores all reducers as a single standardized combineReducers object
+
 import { USER_ACTION_TYPES } from "./user.types";
 
 export const userReducer = (state = INITIAL_STATE, action) => {

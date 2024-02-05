@@ -1,10 +1,10 @@
+// exported to root-reducer, which stores all reducers as a single standardized combineReducers object
+
 import { CATEGORIES_ACTION_TYPES } from "./category.types";
 
 export const CATEGORIES_INITIAL_STATE = {
-  categoriesMape: {},
+  categoriesMap: {},
 };
-
-// exported to root-reducer, which stores all reducers as a single standardized combineReducers object
 
 export const categoriesReducer = (
   state = CATEGORIES_INITIAL_STATE,
@@ -19,3 +19,5 @@ export const categoriesReducer = (
       return state;
   }
 };
+
+// reducers should always be stored as the most basic format

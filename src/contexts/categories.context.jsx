@@ -1,3 +1,5 @@
+// this context is wholly obsolete, but retained for learning purposes. the use of contexts has been replaced by redux store. previously, this component was responsible for making the API call to firebase and retrieving categoriesMap to populate the shop with data
+
 import { createContext, useState, useEffect } from "react";
 
 import { getCategoriesAndDocuments } from "../utils/firebase/firebase.utils.jsx";

@@ -1,0 +1,14 @@
+STORE
+global store object is required to contain and distribute data
+
+ACTIONS
+actions create updates in the reducers (createAction)
+
+REDUCERS
+reducers take in current state and actions (type, payload) and return state modified by payload
+reducers should always be stored as the most basic format, and are typically used for the API call
+
+SELECTORS
+selectors determine which data to extract (useSelector) and transform it into the desired shape
+multiple selectors may perform different transformations on the base input data
+
