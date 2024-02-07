@@ -7,12 +7,17 @@ import "./category.styles.scss";
 import { selectCategoriesMap } from "../../store/categories/category.selector";
 
 const Category = () => {
+  // takes category name from URL parameter
   const { category } = useParams();
+  console.log("render/re-rendering category component");
+  // useSelector transforms categories array
   const categoriesMap = useSelector(selectCategoriesMap);
   const [products, setProducts] = useState(categoriesMap[category]);
 
   useEffect(() => {
+    console.log("effect fired calling setProducts");
     setProducts(categoriesMap[category]);
+    // updates products when category url parameter changes (user navigation) or when categoriesMap updates
   }, [category, categoriesMap]);
 
   return (

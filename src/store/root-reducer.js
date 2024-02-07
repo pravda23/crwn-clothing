@@ -6,6 +6,7 @@ import { userReducer } from "./user/user.reducer";
 
 import { categoriesReducer } from "../store/categories/category.reducer";
 
+// produces a new store object with every update
 export const rootReducer = combineReducers({
   user: userReducer,
   categories: categoriesReducer,
