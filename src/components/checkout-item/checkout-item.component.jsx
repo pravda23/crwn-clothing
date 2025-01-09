@@ -28,7 +28,7 @@ export const CheckoutItem = ({ cartItem }) => {
         </div>
       </span>
       <span className="price">{price}</span>
-      <div className="remove-character" onClick={clearItemHandler}>
+      <div className="remove-button" onClick={clearItemHandler}>
         &#10005;
       </div>
     </div>

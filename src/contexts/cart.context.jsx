@@ -1,5 +1,7 @@
 import { createContext, useReducer } from "react";
 import { createAction } from "../utils/reducer/reducer.utils";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 // helper function to INCREMENT/UPDATE product
 const addCartItem = (cartItems, productToAdd) => {
@@ -91,6 +93,8 @@ export const CartProvider = ({ children }) => {
   const [{ cartItems, isCartOpen, cartCount, cartTotal }, dispatch] =
     useReducer(cartReducer, INITIAL_STATE);
 
+  const location = useLocation(); // Access the current route
+
   const updateCartItemsReducer = (newCartItems) => {
     const newCartCount = newCartItems.reduce(
       (itemTotal, cartItem) => itemTotal + cartItem.quantity,
@@ -111,7 +115,6 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  // use helper functions (above) to add/increment/decrement/remove/clear products from cart
   const addItemToCart = (productToAdd) => {
     const newCartItems = addCartItem(cartItems, productToAdd);
     updateCartItemsReducer(newCartItems);
@@ -129,12 +132,14 @@ export const CartProvider = ({ children }) => {
 
   const setIsCartOpen = (bool) => {
     dispatch(createAction(CART_ACTION_TYPES.SET_CART_IS_OPEN, bool));
-
-    dispatch({
-      type: CART_ACTION_TYPES.SET_CART_IS_OPEN,
-      payload: bool,
-    });
   };
+
+  // Automatically close the cart overlay on route change
+  useEffect(() => {
+    if (isCartOpen) {
+      setIsCartOpen(false);
+    }
+  }, [location.pathname]); // Trigger when the route changes
 
   const value = {
     isCartOpen,
@@ -149,7 +154,6 @@ export const CartProvider = ({ children }) => {
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
-
 // CartContext object data shape:
 
 // product {
